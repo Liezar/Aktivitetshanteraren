@@ -8,35 +8,6 @@ $inputVS_GUI = Get-Content $VS_GUI -Raw
 $inputVS_GUI = $inputVS_GUI -replace 'mc:Ignorable="d"', '' -replace "x:N", 'N' -replace '^<Win.*', '<Window'
 [xml]$xaml = $inputVS_GUI
 
-$reader = (New-Object System.Xml.XmlNodeReader $xaml)
-try {
-    $window = [Windows.Markup.XamlReader]::Load( $reader )    
-} catch {
-    Write-Warning $_.Exception
-    throw
-}
-
-$xaml.SelectNodes("//*[@Name]") | ForEach-Object {
-    #"trying item $($_.Name)"
-    try {
-        Set-Variable -Name "var_$($_.Name)" -Value $window.FindName($_.Name) -ErrorAction Stop
-    } catch {
-        throw
-    }
-}
-
-#Fyller listboxen med processerna som körs på datorn
-function itemlist {
-    $var_listView.Items.Clear()
-    $process = Get-Process
-    $listitems = $process.Name 
-
-    foreach($item in $listitems){
-        $var_listView.Items.Add($item)
-        
-    }
-    
-}
 #Laddar listboxen med processerna som körs på daotrn
 itemlist
 
