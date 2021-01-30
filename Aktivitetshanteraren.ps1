@@ -34,7 +34,7 @@ class Process
 
 #Fyller listboxen med processerna som körs på datorn
 function itemlist {
-    $var_listView.Items.Clear
+    $var_lstV_Itemlist.Items.Clear()
     $processes = Get-Process
     $processes.Path
 
@@ -43,24 +43,25 @@ function itemlist {
         $process.ProcessName = $p.Name
         $process.ProcessStatus = $p.Responding
         $process.PID = $p.Id
-        $var_listView.Items.Add($process)
+        $var_lstV_Itemlist.Items.Add($process)
     }   
 }
 #Laddar listboxen med processerna som körs på daotrn
 itemlist
 
 function startup {
-    $var_listView.Items.Clear()
-    $startup_app = Get-CimInstance -ClassName Win32_startupCommand | Select-Object -Property name, User, status
-    foreach($app in $startup_app){
-        $var_listView.Items.Add($app)
-        
+    $var_lstV_Itemlist.Items.Clear()
+
+    $startup_appar = Get-CimInstance -ClassName Win32_startupCommand | Select-Object -Property
+    foreach($a in $startup_appar){
+        $process = [Process]::new()
+        $process.ProcessName = $a.Name
     }
 }
 
 #Updaterar listan efter du har stoppat en process
 function refreshlist {
-    $var_listView.Items.Clear()
+    $var_lstV_Itemlist.Items.Clear()
     Start-Sleep -Milliseconds 15
     itemlist
 
@@ -68,17 +69,17 @@ function refreshlist {
 
 #Sätta på stänga av knappen
 function buttonenable {
-    $var_btn2.IsEnabled = $false
+    $var_btnAvsluta.IsEnabled = $false
 
-        $var_listView.add_SelectionChanged({
-        $var_btn2.IsEnabled = $true
+        $var_lstV_Itemlist.add_SelectionChanged({
+        $var_btnAvsluta.IsEnabled = $true
 
     })                                   
 }
 buttonenable
 
 function disablebutton {
-    $var_btn2.IsEnabled = $false        
+    $var_btnAvsluta.IsEnabled = $false        
 
 }
 
@@ -87,19 +88,19 @@ function disablebutton {
 
 function stopProcess {
 
-    $name = $var_listView.SelectedItem
+    $name = $var_lstV_Itemlist.SelectedItem
     Stop-Process -Name $name
 
     
 }
 
-$var_btn1.Add_Click({
+$var_btnProcesser.Add_Click({
 
     itemlist     
     disablebutton    
 })
 
-$var_btn2.Add_Click({
+$var_btnAvsluta.Add_Click({
 
     stopProcess
     refreshlist
@@ -107,7 +108,7 @@ $var_btn2.Add_Click({
 
 })
 
-$var_btn3.Add_Click({
+$var_btnAutostart.Add_Click({
 
     startup
     disablebutton
