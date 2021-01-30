@@ -52,10 +52,10 @@ itemlist
 function startup {
     $var_lstV_Itemlist.Items.Clear()
 
-    $startup_appar = Get-CimInstance -ClassName Win32_startupCommand | Select-Object -Property
+    $startup_appar = Get-CimInstance -ClassName Win32_startupCommand 
     foreach($a in $startup_appar){
         $process = [Process]::new()
-        $process.ProcessName = $a.Name
+        $process.ProcessName = $a | Select-Object -Property name
     }
 }
 
