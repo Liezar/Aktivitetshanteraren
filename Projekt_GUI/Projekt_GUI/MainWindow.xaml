@@ -21,8 +21,9 @@
         <ListView x:Name="listView" Margin="10,39,0,0"  Grid.ColumnSpan="3" Grid.RowSpan="2" ClipToBounds="True">
             <ListView.View>
                 <GridView>
-                    <GridViewColumn Header="Processer" Width="200"/>
-                    <GridViewColumn Header="Status" Width="125"/>
+                    <GridViewColumn DisplayMemberBinding="{Binding PID}" Header="PID"/>
+                    <GridViewColumn Header="Processer" Width="200" DisplayMemberBinding="{Binding ProcessName}"/>
+                    <GridViewColumn Header="Status" Width="125" DisplayMemberBinding="{Binding ProcessStatus}"/>
                 </GridView>
             </ListView.View>
         </ListView>

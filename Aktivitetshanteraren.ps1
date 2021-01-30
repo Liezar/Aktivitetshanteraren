@@ -25,17 +25,26 @@ $xaml.SelectNodes("//*[@Name]") | ForEach-Object {
     }
 }
 
+class Process
+{
+    [string]$ProcessName
+    [bool]$ProcessStatus
+    [int]$PID
+}
+
 #Fyller listboxen med processerna som körs på datorn
 function itemlist {
-    $var_listView.Items.Clear()
-    $process = Get-Process
-    $listitems = $process.Name 
+    $var_listView.Items.Clear
+    $processes = Get-Process
+    $processes.Path
 
-    foreach($item in $listitems){
-        $var_listView.Items.Add($item)
-        
-    }
-    
+    foreach($p in $processes){
+        $process = [Process]::new()
+        $process.ProcessName = $p.Name
+        $process.ProcessStatus = $p.Responding
+        $process.PID = $p.Id
+        $var_listView.Items.Add($process)
+    }   
 }
 #Laddar listboxen med processerna som körs på daotrn
 itemlist
