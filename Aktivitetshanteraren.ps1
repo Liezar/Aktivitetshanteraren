@@ -49,10 +49,10 @@ function itemlist {
 #Laddar listboxen med processerna som körs på daotrn
 itemlist
 
-#$timer = New-Object System.Windows.Forms.Timer
-#$timer.interval = 5000
-#$timer.Enabled = $true
-#$timer.add_tick({itemlist})
+$timer = New-Object System.Windows.Forms.Timer
+$timer.interval = 5000
+$timer.Enabled = $true
+$timer.add_tick({itemlist})
 
 function startup {
     $var_lstV_Itemlist.Items.Clear()
