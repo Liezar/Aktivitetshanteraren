@@ -25,8 +25,7 @@ $xaml.SelectNodes("//*[@Name]") | ForEach-Object {
     }
 }
 
-class Process
-{
+class Process{    
     [string]$ProcessName
     [bool]$ProcessStatus
     [int]$PID
@@ -95,7 +94,8 @@ function stopProcess {
 
 $var_btnProcesser.Add_Click({
     itemlist     
-    disablebutton    
+    disablebutton
+    $timer.Start()    
 })
 
 $var_btnAvsluta.Add_Click{        
@@ -104,9 +104,9 @@ $var_btnAvsluta.Add_Click{
 }
 
 $var_btnAutostart.Add_Click({
-
     startup
     disablebutton
+    $timer.Stop()
 })
 
 $Null = $window.ShowDialog()
