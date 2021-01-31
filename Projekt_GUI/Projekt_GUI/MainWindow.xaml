@@ -6,11 +6,11 @@
         xmlns:local="clr-namespace:Projekt_GUI"
         mc:Ignorable="d"
         Title="Aktivitetshanterare" Height="398" Width="813" MinHeight="464" MinWidth="803" Background="#FFA8A8A8" Topmost="True" WindowStartupLocation="CenterScreen">
-    <Grid x:Name="Aktivitetshanterare" Margin="0,0,-14,-4"  Grid.ColumnSpan="3" Grid.RowSpan="2" ClipToBounds="True">
+    <Grid x:Name="Aktivitetshanterare" Margin="0,0,-14,-8"  Grid.ColumnSpan="3" Grid.RowSpan="2" ClipToBounds="True">
         <Grid.RowDefinitions>
-            <RowDefinition Height="6*"/>
-            <RowDefinition Height="50*"/>
-            <RowDefinition Height="7*"/>
+            <RowDefinition Height="42*"/>
+            <RowDefinition Height="350*"/>
+            <RowDefinition Height="45*"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="100*"/>
@@ -18,7 +18,7 @@
             <ColumnDefinition Width="75*"/>
         </Grid.ColumnDefinitions>
         <ListBox x:Name="lstBox" Margin="10,2,0,0" Grid.ColumnSpan="3" ClipToBounds="True" IsEnabled="False" Visibility="Hidden" Grid.Row="1"/>
-        <ListView x:Name="lstV_Itemlist" Margin="0,39,13,0"  Grid.ColumnSpan="3" Grid.RowSpan="2" ClipToBounds="True">
+        <ListView x:Name="lstV_Itemlist"  Grid.ColumnSpan="3" Grid.RowSpan="3" ClipToBounds="True" Margin="0,40,10,43">
             <ListView.View>
                 <GridView>
                     <GridViewColumn DisplayMemberBinding="{Binding PID}" Header="PID"/>
@@ -27,10 +27,10 @@
                 </GridView>
             </ListView.View>
         </ListView>
-        <Button x:Name="btnProcesser" Content="Processer" Width="76" Height="20" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="5,17,129,3"/>
-        <Button x:Name="btnAutostart" Content="Autostart" Width="76" Height="20" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="86,17,48,3" />
-        <Button Content="Button" Width="74" Height="20" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="167,17,421,3" Grid.ColumnSpan="2"/>
-        <Button x:Name="btnAvsluta" Content="Avsluta Aktivitet&#xD;&#xA;" Grid.Column="2" HorizontalAlignment="Left" Margin="40,10,0,0" Grid.Row="2" VerticalAlignment="Top" Width="95" Height="19"/>
+        <Button x:Name="btnProcesser" Content="Processer" Width="76" HorizontalAlignment="Left" Margin="5,18,0,0" Height="20" VerticalAlignment="Top"/>
+        <Button x:Name="btnAutostart" Content="Autostart" Width="76" HorizontalAlignment="Left" Margin="86,18,0,0" Height="20" VerticalAlignment="Top" />
+        <Button Content="Button" Width="74" HorizontalAlignment="Left" Margin="167,18,0,0" Grid.ColumnSpan="2" Height="20" VerticalAlignment="Top"/>
+        <Button x:Name="btnAvsluta" Content="Avsluta Aktivitet&#xD;&#xA;" Grid.Column="2" HorizontalAlignment="Right" Margin="0,0,19,17" Grid.Row="2" VerticalAlignment="Bottom" Width="95" Height="19"/>
 
     </Grid>
 
