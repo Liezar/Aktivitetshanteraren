@@ -44,18 +44,20 @@ function itemlist {
         $process.ProcessStatus = $p.Responding
         $process.PID = $p.Id
         $var_lstV_Itemlist.Items.Add($process)
-    }   
+    }      
 }
 #Laddar listboxen med processerna som körs på daotrn
-itemlist
 
+itemlist
 function startup {
     $var_lstV_Itemlist.Items.Clear()
 
-    $startup_appar = Get-CimInstance -ClassName Win32_startupCommand 
+    $startup_appar = Get-Ciminstance -Classname Win32_startupCommand
     foreach($a in $startup_appar){
         $process = [Process]::new()
-        $process.ProcessName = $a | Select-Object -Property name
+        $process.ProcessName = $a | Select-Object -Property Caption
+        $process.ProcessStatus = $a | Select-Object -Property Command
+        $var_lstV_Itemlist.items.Add($process)
     }
 }
 
