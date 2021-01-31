@@ -47,8 +47,13 @@ function itemlist {
     }      
 }
 #Laddar listboxen med processerna som körs på daotrn
-
 itemlist
+
+$timer = New-Object System.Windows.Forms.Timer
+$timer.interval = 5000
+$timer.Enabled = $true
+$timer.add_tick({itemlist})
+
 function startup {
     $var_lstV_Itemlist.Items.Clear()
 
@@ -85,9 +90,6 @@ function disablebutton {
 
 }
 
-
-
-
 function stopProcess {
 
     $name = $var_lstV_Itemlist.SelectedItem
@@ -117,3 +119,4 @@ $var_btnAutostart.Add_Click({
 })
 
 $Null = $window.ShowDialog()
+$timer.stop
