@@ -44,15 +44,15 @@ function itemlist {
         $process.ProcessStatus = $p.Responding
         $process.PID = $p.Id
         $var_lstV_Itemlist.Items.Add($process)
-    }      
+    }
 }
 #Laddar listboxen med processerna som körs på daotrn
 itemlist
 
-$timer = New-Object System.Windows.Forms.Timer
-$timer.interval = 5000
-$timer.Enabled = $true
-$timer.add_tick({itemlist})
+#$timer = New-Object System.Windows.Forms.Timer
+#$timer.interval = 5000
+#$timer.Enabled = $true
+#$timer.add_tick({itemlist})
 
 function startup {
     $var_lstV_Itemlist.Items.Clear()
@@ -77,7 +77,6 @@ function refreshlist {
 #Sätta på stänga av knappen
 function buttonenable {
     $var_btnAvsluta.IsEnabled = $false
-
         $var_lstV_Itemlist.add_SelectionChanged({
         $var_btnAvsluta.IsEnabled = $true
 
@@ -87,30 +86,22 @@ buttonenable
 
 function disablebutton {
     $var_btnAvsluta.IsEnabled = $false        
-
 }
 
 function stopProcess {
-
-    $name = $var_lstV_Itemlist.SelectedItem
-    Stop-Process -Name $name
-
-    
+    $yo = $var_lstV_Itemlist.SelectedItem.PID
+    Stop-Process -Id $yo
 }
 
 $var_btnProcesser.Add_Click({
-
     itemlist     
     disablebutton    
 })
 
-$var_btnAvsluta.Add_Click({
-
+$var_btnAvsluta.Add_Click{        
     stopProcess
     refreshlist
-    
-
-})
+}
 
 $var_btnAutostart.Add_Click({
 
