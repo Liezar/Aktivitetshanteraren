@@ -31,6 +31,10 @@ class Process{
     [int]$PID
 }
 
+$timer = New-Object System.Windows.Forms.Timer
+$timer.Interval = 5000
+$timer.Enabled = $true
+
 #Fyller listboxen med processerna som körs på datorn
 function itemlist {
     $var_lstV_Itemlist.Items.Clear()
@@ -44,14 +48,14 @@ function itemlist {
         $process.PID = $p.Id
         $var_lstV_Itemlist.Items.Add($process)
     }
+    $timer.Stop()
+    $timer.Start()
+    Write-Host "yo"
 }
 #Laddar listboxen med processerna som körs på daotrn
 itemlist
 
-$timer = New-Object System.Windows.Forms.Timer
-$timer.interval = 5000
-$timer.Enabled = $true
-$timer.add_tick({itemlist})
+$timer.add_tick{(itemlist)}
 
 function startup {
     $var_lstV_Itemlist.Items.Clear()
@@ -109,5 +113,11 @@ $var_btnAutostart.Add_Click({
     $timer.Stop()
 })
 
+#Stoppar timern och tömmer dens resurser
+$window.Add_Closing({
+    $timer.Stop()
+    $timer.Dispose()
+
+
+})
 $Null = $window.ShowDialog()
-$timer.stop
