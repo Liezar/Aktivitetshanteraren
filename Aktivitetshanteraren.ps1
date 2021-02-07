@@ -2,7 +2,11 @@
 Add-Type -AssemblyName System.Windows.Forms
 [System.Windows.Forms.Application]::EnableVisualStyles()
 #Hämtar GUI från en mapp
-$VS_GUI = "C:\Users\edvin\OneDrive\Dokument\WindowsPowerShell\Aktivitetshanteraren\Projekt_GUI\Projekt_GUI\MainWindow.xaml"
+#Hemma
+#$VS_GUI = "C:\Users\edvin\OneDrive\Dokument\WindowsPowerShell\Aktivitetshanteraren\Projekt_GUI\Projekt_GUI\MainWindow.xaml"
+
+#Skola
+#$VS_GUI = "C:\Users\edvin.salminen\Documents\Powershell uppgifter\Projekt\Aktivitetshanteraren-master\Projekt_GUI\Projekt_GUI\MainWindow.xaml"
 
 $inputVS_GUI = Get-Content $VS_GUI -Raw
 $inputVS_GUI = $inputVS_GUI -replace 'mc:Ignorable="d"', '' -replace "x:N", 'N' -replace '^<Win.*', '<Window'
