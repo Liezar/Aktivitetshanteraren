@@ -3,7 +3,7 @@ Add-Type -AssemblyName System.Windows.Forms
 [System.Windows.Forms.Application]::EnableVisualStyles()
 #Hämtar GUI från en mapp
 #Hemma
-#$VS_GUI = "C:\Users\edvin\OneDrive\Dokument\WindowsPowerShell\Aktivitetshanteraren\Projekt_GUI\Projekt_GUI\MainWindow.xaml"
+$VS_GUI = "C:\Users\edvin\OneDrive\Dokument\WindowsPowerShell\Aktivitetshanteraren\Projekt_GUI\Projekt_GUI\MainWindow.xaml"
 
 #Skola
 #$VS_GUI = "C:\Users\edvin.salminen\Documents\Powershell uppgifter\Projekt\Aktivitetshanteraren-master\Projekt_GUI\Projekt_GUI\MainWindow.xaml"
@@ -38,25 +38,23 @@ class Process{
 $timer = New-Object System.Windows.Forms.Timer
 $timer.Interval = 5000
 $timer.Enabled = $true
+$timer.Start()
 
 #Fyller listboxen med processerna som körs på datorn
 function itemlist {
     $var_lstV_Itemlist.Items.Clear()
     $processes = Get-Process
     $processes.Path
-
     foreach($p in $processes){
         $process = [Process]::new()
         $process.ProcessName = $p.Name
         $process.ProcessStatus = $p.Responding
         $process.PID = $p.Id
         $var_lstV_Itemlist.Items.Add($process)
-    }
-    $timer.Stop()
-    $timer.Start()
+    }    
     Write-Host "yo"
 }
-#Laddar listboxen med processerna som körs på daotrn
+#Laddar listboxen med processerna som körs på datorn
 itemlist
 
 $timer.add_tick{(itemlist)}
@@ -84,7 +82,7 @@ function refreshlist {
 #Sätta på stänga av knappen
 function buttonenable {
     $var_btnAvsluta.IsEnabled = $false
-        $var_lstV_Itemlist.add_SelectionChanged({
+    $var_lstV_Itemlist.add_SelectionChanged({
         $var_btnAvsluta.IsEnabled = $true
 
     })                                   
@@ -96,8 +94,8 @@ function disablebutton {
 }
 
 function stopProcess {
-    $yo = $var_lstV_Itemlist.SelectedItem.PID
-    Stop-Process -Id $yo
+    $select = $var_lstV_Itemlist.SelectedItem.PID
+    Stop-Process -Id $select
 }
 
 $var_btnProcesser.Add_Click({

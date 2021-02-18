@@ -17,10 +17,9 @@
             <ColumnDefinition Width="216*"/>
             <ColumnDefinition Width="75*"/>
         </Grid.ColumnDefinitions>
-        <ListBox x:Name="lstBox" Margin="10,2,0,0" Grid.ColumnSpan="3" ClipToBounds="True" IsEnabled="False" Visibility="Hidden" Grid.Row="1"/>
-        <ListView x:Name="lstV_Itemlist"  Grid.ColumnSpan="3" Grid.RowSpan="3" ClipToBounds="True" Margin="0,40,10,43">
+        <ListView x:Name="lstV_Itemlist"  Grid.ColumnSpan="3" Grid.RowSpan="3" ClipToBounds="True" Margin="0,40,10,43" SelectedIndex="0">
             <ListView.View>
-                <GridView>
+                <GridView AllowsColumnReorder="False">
                     <GridViewColumn DisplayMemberBinding="{Binding PID}" Header="PID"/>
                     <GridViewColumn Header="Namn" Width="200" DisplayMemberBinding="{Binding ProcessName}"/>
                     <GridViewColumn Header="Status" Width="125" DisplayMemberBinding="{Binding ProcessStatus}"/>
@@ -29,7 +28,6 @@
         </ListView>
         <Button x:Name="btnProcesser" Content="Processer" Width="76" HorizontalAlignment="Left" Margin="5,18,0,0" Height="20" VerticalAlignment="Top"/>
         <Button x:Name="btnAutostart" Content="Autostart" Width="76" HorizontalAlignment="Left" Margin="86,18,0,0" Height="20" VerticalAlignment="Top" />
-        <Button Content="Button" Width="74" HorizontalAlignment="Left" Margin="167,18,0,0" Grid.ColumnSpan="2" Height="20" VerticalAlignment="Top"/>
         <Button x:Name="btnAvsluta" Content="Avsluta Aktivitet&#xD;&#xA;" Grid.Column="2" HorizontalAlignment="Right" Margin="0,0,19,17" Grid.Row="2" VerticalAlignment="Bottom" Width="95" Height="19"/>
 
     </Grid>
