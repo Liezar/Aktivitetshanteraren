@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Projekt_GUI"
         mc:Ignorable="d"
-        Title="Aktivitetshanterare" Height="398" Width="813" MinHeight="464" MinWidth="803" Background="#FFA8A8A8" Topmost="True" WindowStartupLocation="CenterScreen">
+        Title="Aktivitetshanterare" Height="398" Width="813" MinHeight="464" MinWidth="803" Background="#FF383636" Topmost="True" WindowStartupLocation="CenterScreen">
     <Grid x:Name="Aktivitetshanterare" Margin="0,0,-14,-8"  Grid.ColumnSpan="3" Grid.RowSpan="2" ClipToBounds="True">
         <Grid.RowDefinitions>
             <RowDefinition Height="42*"/>
@@ -17,7 +17,7 @@
             <ColumnDefinition Width="216*"/>
             <ColumnDefinition Width="75*"/>
         </Grid.ColumnDefinitions>
-        <ListView x:Name="lstV_Itemlist"  Grid.ColumnSpan="3" Grid.RowSpan="3" ClipToBounds="True" Margin="0,40,10,43" SelectedIndex="0">
+        <ListView x:Name="lstV_Itemlist"  Grid.ColumnSpan="3" Grid.RowSpan="3" ClipToBounds="True" Margin="0,40,10,43" SelectedIndex="{Binding Index, FallbackValue=0, Mode=TwoWay, StringFormat=\{0:D\}, TargetNullValue=0, UpdateSourceTrigger=Default, ValidatesOnNotifyDataErrors=False}" Background="#FFFDFDFD">
             <ListView.View>
                 <GridView AllowsColumnReorder="False">
                     <GridViewColumn DisplayMemberBinding="{Binding PID}" Header="PID"/>
@@ -26,8 +26,8 @@
                 </GridView>
             </ListView.View>
         </ListView>
-        <Button x:Name="btnProcesser" Content="Processer" Width="76" HorizontalAlignment="Left" Margin="5,18,0,0" Height="20" VerticalAlignment="Top"/>
-        <Button x:Name="btnAutostart" Content="Autostart" Width="76" HorizontalAlignment="Left" Margin="86,18,0,0" Height="20" VerticalAlignment="Top" />
+        <Button x:Name="btnProcesser" Content="Processer" Width="76" HorizontalAlignment="Left" Margin="0,18,0,0" Height="20" VerticalAlignment="Top"/>
+        <Button x:Name="btnAutostart" Content="Autostart" Width="76" HorizontalAlignment="Left" Margin="76,18,0,0" Height="20" VerticalAlignment="Top" />
         <Button x:Name="btnAvsluta" Content="Avsluta Aktivitet&#xD;&#xA;" Grid.Column="2" HorizontalAlignment="Right" Margin="0,0,19,17" Grid.Row="2" VerticalAlignment="Bottom" Width="95" Height="19"/>
 
     </Grid>

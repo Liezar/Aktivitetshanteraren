@@ -42,9 +42,12 @@ $timer.Start()
 
 #Fyller listboxen med processerna som körs på datorn
 function itemlist {
+    $SelectedItem = $var_lstV_Itemlist.SelectedIndex
+    Set-Variable $SelectedItem -Option ReadOnly
     $var_lstV_Itemlist.Items.Clear()
+    $var_lstV_Itemlist.SelectedIndex = $SelectedItem
+
     $processes = Get-Process
-    $processes.Path
     foreach($p in $processes){
         $process = [Process]::new()
         $process.ProcessName = $p.Name
@@ -84,7 +87,6 @@ function buttonenable {
     $var_btnAvsluta.IsEnabled = $false
     $var_lstV_Itemlist.add_SelectionChanged({
         $var_btnAvsluta.IsEnabled = $true
-
     })                                   
 }
 buttonenable
