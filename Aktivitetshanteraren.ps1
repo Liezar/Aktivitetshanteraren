@@ -52,10 +52,12 @@ function itemlist {
 
             if($processes.Contains($p.Id) -eq $false) {
                 if($p.Path.length -gt 0) {
-                    Write-Host "Path:" $p.Path
                     $fullFileName = $p.Path.split("\")[-1]
-                    $fileName = $fullFileName.trim(".exe")
-                    $icon.ToBitmap().Save("C:\Test\" + $fileName + ".bmp")
+                    $fileName = $fullFileName -replace(".exe", "")
+
+                    if($fileName.lenght -gt 0) {
+                        $icon.ToBitmap().Save("C:\Test\" + $fileName + ".bmp")
+                    }
                 }
             }
 
@@ -69,9 +71,9 @@ function itemlist {
             $process.PID = $p.Id
             $process.ProcessCPU = $p.cpupercentage
             $process.TestCPU = $p.TotalPercentage
-            $var_lstV_Itemlist.Items.Add($process)
+            $var_lstV_Itemlist.Items.Add($process) > null
 
-            $processes.Add($p.Id)
+            $processes.Add($p.Id) > null
     }
 }
 
@@ -94,7 +96,6 @@ function startup {
 
 #Updaterar listan efter du har stoppat en process
 function refreshlist {
-    $var_lstV_Itemlist.Items.Clear()
     itemlist
 }
 

@@ -21,11 +21,6 @@
             <ColumnDefinition Width="75*"/>
         </Grid.ColumnDefinitions>
         <ListView x:Name="lstV_Itemlist"  Grid.ColumnSpan="3" Grid.RowSpan="3" ClipToBounds="True" Margin="0,40,10,43" SelectedIndex="{Binding Index, FallbackValue=0, Mode=TwoWay, StringFormat=\{0:D\}, TargetNullValue=0, UpdateSourceTrigger=Default, ValidatesOnNotifyDataErrors=False}" Background="#FFFDFDFD">
-            <ListView.ItemTemplate>
-                <DataTemplate>
-                    <Image Source="C:\Test\notepad.bmp"></Image>
-                </DataTemplate>
-            </ListView.ItemTemplate>
             <ListView.View>
                 <GridView AllowsColumnReorder="False">
                     <GridViewColumn DisplayMemberBinding="{Binding PID}" Header="PID"/>
