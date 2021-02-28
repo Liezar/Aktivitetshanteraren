@@ -1,12 +1,10 @@
 ﻿Add-Type -AssemblyName PresentationFramework
 Add-Type -AssemblyName System.Windows.Forms
+Add-Type -AssemblyName System.Drawing
+
 [System.Windows.Forms.Application]::EnableVisualStyles()
 #Hämtar GUI från en mapp
-#Hemma
 $VS_GUI = "C:\Users\edvin\OneDrive\Dokument\WindowsPowerShell\Aktivitetshanteraren\Projekt_GUI\Projekt_GUI\MainWindow.xaml"
-
-#Skola
-#$VS_GUI = "C:\Users\edvin.salminen\Documents\Powershell uppgifter\Projekt\Aktivitetshanteraren-master\Projekt_GUI\Projekt_GUI\MainWindow.xaml"
 
 $inputVS_GUI = Get-Content $VS_GUI -Raw
 $inputVS_GUI = $inputVS_GUI -replace 'mc:Ignorable="d"', '' -replace "x:N", 'N' -replace '^<Win.*', '<Window'
@@ -16,12 +14,11 @@ $reader = (New-Object System.Xml.XmlNodeReader $xaml)
 try {
     $window = [Windows.Markup.XamlReader]::Load( $reader )    
 } catch {
-    Write-Warning $_.Exception
+    Write-Warning "Fel: " + $_.Exception
     throw
 }
 
 $xaml.SelectNodes("//*[@Name]") | ForEach-Object {
-    #"trying item $($_.Name)"
     try {
         Set-Variable -Name "var_$($_.Name)" -Value $window.FindName($_.Name) -ErrorAction Stop
     } catch {
@@ -31,33 +28,54 @@ $xaml.SelectNodes("//*[@Name]") | ForEach-Object {
 
 class Process{    
     [string]$ProcessName
-    [bool]$ProcessStatus
+    [bool]$ProcessStatus    
     [int]$PID
-}
+    [int]$ProcessCPU
+    [int]$TestCPU
+    [string]$Path
+    [System.Drawing.Icon]$Ikon
+}   
 
 $timer = New-Object System.Windows.Forms.Timer
-$timer.Interval = 5000
+$timer.Interval = 10000
 $timer.Enabled = $true
 $timer.Start()
 
+$processes = [System.Collections.ArrayList]::new()
+
 #Fyller listboxen med processerna som körs på datorn
 function itemlist {
-    $SelectedItem = $var_lstV_Itemlist.SelectedIndex
-    Set-Variable $SelectedItem -Option ReadOnly
     $var_lstV_Itemlist.Items.Clear()
-    $var_lstV_Itemlist.SelectedIndex = $SelectedItem
 
-    $processes = Get-Process
-    foreach($p in $processes){
-        $process = [Process]::new()
-        $process.ProcessName = $p.Name
-        $process.ProcessStatus = $p.Responding
-        $process.PID = $p.Id
-        $var_lstV_Itemlist.Items.Add($process)
-    }    
-    Write-Host "yo"
+    foreach($p in Get-Process){
+            $process = [Process]::new()     
+
+            if($processes.Contains($p.Id) -eq $false) {
+                if($p.Path.length -gt 0) {
+                    Write-Host "Path:" $p.Path
+                    $fullFileName = $p.Path.split("\")[-1]
+                    $fileName = $fullFileName.trim(".exe")
+                    $icon.ToBitmap().Save("C:\Test\" + $fileName + ".bmp")
+                }
+            }
+
+            if($p.Path.length -gt 0) {
+                $icon = [System.Drawing.Icon]::ExtractAssociatedIcon($p.Path)
+            }
+
+            $process.Path = $p.path
+            $process.ProcessName = $p.Name
+            $process.ProcessStatus = $p.Responding
+            $process.PID = $p.Id
+            $process.ProcessCPU = $p.cpupercentage
+            $process.TestCPU = $p.TotalPercentage
+            $var_lstV_Itemlist.Items.Add($process)
+
+            $processes.Add($p.Id)
+    }
 }
-#Laddar listboxen med processerna som körs på datorn
+
+#Laddar listboxen med processerna som körs på daotrn
 itemlist
 
 $timer.add_tick{(itemlist)}
@@ -77,16 +95,15 @@ function startup {
 #Updaterar listan efter du har stoppat en process
 function refreshlist {
     $var_lstV_Itemlist.Items.Clear()
-    Start-Sleep -Milliseconds 15
     itemlist
-
 }
 
 #Sätta på stänga av knappen
 function buttonenable {
     $var_btnAvsluta.IsEnabled = $false
-    $var_lstV_Itemlist.add_SelectionChanged({
+        $var_lstV_Itemlist.add_SelectionChanged({
         $var_btnAvsluta.IsEnabled = $true
+
     })                                   
 }
 buttonenable
@@ -96,8 +113,8 @@ function disablebutton {
 }
 
 function stopProcess {
-    $select = $var_lstV_Itemlist.SelectedItem.PID
-    Stop-Process -Id $select
+    $yo = $var_lstV_Itemlist.SelectedItem.PID
+    Stop-Process -Id $yo
 }
 
 $var_btnProcesser.Add_Click({
@@ -121,7 +138,6 @@ $var_btnAutostart.Add_Click({
 $window.Add_Closing({
     $timer.Stop()
     $timer.Dispose()
-
-
 })
-$Null = $window.ShowDialog()
+
+[void]$window.ShowDialog()

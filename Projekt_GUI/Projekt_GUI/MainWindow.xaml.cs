@@ -29,5 +29,10 @@ namespace Projekt_GUI
         {
 
         }
+
+        private void lstV_Itemlist_SelectionChanged()
+        {
+
+        }
     }
 }
