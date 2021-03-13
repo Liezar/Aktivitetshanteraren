@@ -54,6 +54,12 @@ function itemlist {
     foreach($p in Get-Process){
             $process = [Process]::new()     
         
+            if($p.Path.length -gt 0) {
+                $fullFileName = $p.Path.split("\")[-1]
+                $fileName = $fullFileName -replace(".exe", "")
+                $process.IconFile = "C:\Test\" + $fileName + ".bmp"
+            }
+
             if($processes.Contains($p.Id) -eq $false) {
                 if($p.Path.length -gt 0) {
                     if($fileName.length -gt 0) {
@@ -61,12 +67,6 @@ function itemlist {
                         $icon.ToBitmap().Save("C:\Test\" + $fileName + ".bmp")
                     }
                 }
-            }
-
-            if($p.Path.length -gt 0) {
-                $fullFileName = $p.Path.split("\")[-1]
-                $fileName = $fullFileName -replace(".exe", "")
-                $process.IconFile = "C:\Test\" + $fileName + ".bmp"
             }
 
             $process.Path = $p.path
