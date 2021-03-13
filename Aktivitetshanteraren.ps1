@@ -4,7 +4,7 @@ Add-Type -AssemblyName System.Drawing
 
 [System.Windows.Forms.Application]::EnableVisualStyles()
 #Hämtar GUI från en mapp
-$VS_GUI = "C:\Users\edvin\OneDrive\Dokument\WindowsPowerShell\Aktivitetshanteraren\Projekt_GUI\Projekt_GUI\MainWindow.xaml"
+$VS_GUI = "Projekt_GUI\Projekt_GUI\MainWindow.xaml"
 
 $inputVS_GUI = Get-Content $VS_GUI -Raw
 $inputVS_GUI = $inputVS_GUI -replace 'mc:Ignorable="d"', '' -replace "x:N", 'N' -replace '^<Win.*', '<Window'
@@ -51,20 +51,22 @@ function itemlist {
     $var_lstV_Itemlist.SelectedIndex = $SelectedItem
     $var_lstV_Itemlist.Items.Clear()
 
+    [string]$currentPath = Get-Location
+
     foreach($p in Get-Process){
             $process = [Process]::new()     
         
             if($p.Path.length -gt 0) {
                 $fullFileName = $p.Path.split("\")[-1]
                 $fileName = $fullFileName -replace(".exe", "")
-                $process.IconFile = "C:\Test\" + $fileName + ".bmp"
+                $process.IconFile = $currentPath + $fileName + ".bmp"
             }
 
             if($processes.Contains($p.Id) -eq $false) {
                 if($p.Path.length -gt 0) {
                     if($fileName.length -gt 0) {
                         $icon = [System.Drawing.Icon]::ExtractAssociatedIcon($p.Path)
-                        $icon.ToBitmap().Save("C:\Test\" + $fileName + ".bmp")
+                        $icon.ToBitmap().Save($currentPath + $fileName + ".bmp")
                     }
                 }
             }
