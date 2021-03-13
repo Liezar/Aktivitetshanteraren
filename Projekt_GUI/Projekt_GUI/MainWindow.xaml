@@ -24,7 +24,13 @@
             <ListView.View>
                 <GridView AllowsColumnReorder="False">
                     <GridViewColumn DisplayMemberBinding="{Binding PID}" Header="PID"/>
-                    <GridViewColumn DisplayMemberBinding="{Binding Ikon}" Header="Ikon"/>
+                    <GridViewColumn Header="Ikon">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <Image Source="{Binding IconFile}"/>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
                     <GridViewColumn Header="Namn" Width="200" DisplayMemberBinding="{Binding ProcessName}"/>
                     <GridViewColumn Header="Status" Width="70" DisplayMemberBinding="{Binding ProcessStatus}"/>
                     <GridViewColumn DisplayMemberBinding="{Binding Path}" Header="Path" Width="125"/>

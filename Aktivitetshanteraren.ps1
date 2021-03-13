@@ -33,7 +33,8 @@ class Process{
     [int]$ProcessCPU
     [int]$TestCPU
     [string]$Path
-    [System.Drawing.Icon]$Ikon
+    [string]$Ikon
+    [string]$IconFile
 }   
 
 $timer = New-Object System.Windows.Forms.Timer
@@ -45,30 +46,33 @@ $processes = [System.Collections.ArrayList]::new()
 
 #Fyller listboxen med processerna som körs på datorn
 function itemlist {
+    $SelectedItem = $var_lstV_Itemlist.SelectedIndex
+    Set-Variable $SelectedItem -Option ReadOnly
+    $var_lstV_Itemlist.SelectedIndex = $SelectedItem
     $var_lstV_Itemlist.Items.Clear()
 
     foreach($p in Get-Process){
             $process = [Process]::new()     
-
+        
             if($processes.Contains($p.Id) -eq $false) {
                 if($p.Path.length -gt 0) {
-                    $fullFileName = $p.Path.split("\")[-1]
-                    $fileName = $fullFileName -replace(".exe", "")
-
-                    if($fileName.lenght -gt 0) {
+                    if($fileName.length -gt 0) {
+                        $icon = [System.Drawing.Icon]::ExtractAssociatedIcon($p.Path)
                         $icon.ToBitmap().Save("C:\Test\" + $fileName + ".bmp")
                     }
                 }
             }
 
             if($p.Path.length -gt 0) {
-                $icon = [System.Drawing.Icon]::ExtractAssociatedIcon($p.Path)
+                $fullFileName = $p.Path.split("\")[-1]
+                $fileName = $fullFileName -replace(".exe", "")
+                $process.IconFile = "C:\Test\" + $fileName + ".bmp"
             }
 
             $process.Path = $p.path
             $process.ProcessName = $p.Name
-            $process.ProcessStatus = $p.Responding
             $process.PID = $p.Id
+            $process.ProcessStatus = $p.Responding
             $process.ProcessCPU = $p.cpupercentage
             $process.TestCPU = $p.TotalPercentage
             $var_lstV_Itemlist.Items.Add($process) > null
